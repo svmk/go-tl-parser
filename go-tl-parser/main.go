@@ -68,7 +68,7 @@ func main() {
 	w.Write(jsonBytes)
 
 	os.Remove(generateDir + "/" + structsFileName)
-	gnrtdStructs, gnrtdMethods := go_tl.Generate(schema, generatedPackage)
+	gnrtdStructs, gnrtdMethods := Generate(schema, generatedPackage)
 	structsFile, err := os.OpenFile(generateDir+"/"+structsFileName, os.O_CREATE|os.O_RDWR, os.ModePerm)
 	defer structsFile.Close()
 	if err != nil {
