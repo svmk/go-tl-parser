@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./code_generator"
-	"./parser"
+	"github.com/svmk/go-tl-parser/code_generator"
+	"github.com/svmk/go-tl-parser/parser"
 	"bufio"
 	"encoding/json"
 	"flag"

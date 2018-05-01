@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./json_generator"
-	"./parser"
+	"github.com/svmk/go-tl-parser/json_generator"
+	"github.com/svmk/go-tl-parser/parser"
 	"flag"
 	"fmt"
 	"log"
