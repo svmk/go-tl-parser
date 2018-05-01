@@ -89,7 +89,7 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 	}
 
 	for _, interfaceInfo := range schema.InterfaceInfoes {
-		interfaceInfo.Name = ReplaceKeyWords(interfaceInfo.Name)
+		interfaceInfo.Name = go_tl.ReplaceKeyWords(interfaceInfo.Name)
 		typesCases := ""
 
 		gnrtdStructs += fmt.Sprintf("// %s %s \ntype %s interface {\nGet%sEnum() %sEnum\n}\n\n",
@@ -138,7 +138,7 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 	for _, classInfoe := range schema.ClassInfoes {
 		if !classInfoe.IsFunction {
 			structName := strings.ToUpper(classInfoe.Name[:1]) + classInfoe.Name[1:]
-			structName = ReplaceKeyWords(structName)
+			structName = go_tl.ReplaceKeyWords(structName)
 			structNameCamel := strings.ToLower(structName[0:1]) + structName[1:]
 
 			hasInterfaceProps := false
@@ -150,9 +150,9 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 			// sort.Sort(classInfoe.Properties)
 			for i, prop := range classInfoe.Properties {
 				propName := govalidator.UnderscoreToCamelCase(prop.Name)
-				propName = ReplaceKeyWords(propName)
+				propName = go_tl.ReplaceKeyWords(propName)
 
-				dataType, isPrimitive := ConvertDataType(prop.Type, ArraySideLeft, true)
+				dataType, isPrimitive := go_tl.ConvertDataType(prop.Type, go_tl.ArraySideLeft, true)
 				propsStrItem := ""
 				if isPrimitive || checkIsInterface(dataType, schema) {
 					propsStrItem += fmt.Sprintf("%s %s `json:\"%s\"` // %s", propName, dataType, prop.Name, prop.Description)
@@ -190,8 +190,8 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 			assingsStr := ""
 			for i, param := range classInfoe.Properties {
 				propName := govalidator.UnderscoreToCamelCase(param.Name)
-				propName = ReplaceKeyWords(propName)
-				dataType, isPrimitive := ConvertDataType(param.Type, ArraySideLeft, true)
+				propName = go_tl.ReplaceKeyWords(propName)
+				dataType, isPrimitive := go_tl.ConvertDataType(param.Type, go_tl.ArraySideLeft, true)
 				paramName := convertToArgumentName(param.Name)
 
 				if isPrimitive || checkIsInterface(dataType, schema) {
@@ -257,7 +257,7 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 					assignStr, assignInterfacePropsStr)
 			}
 			if checkIsInterface(classInfoe.RootName, schema) {
-				rootName := ReplaceKeyWords(classInfoe.RootName)
+				rootName := go_tl.ReplaceKeyWords(classInfoe.RootName)
 				gnrtdStructs += fmt.Sprintf(`
 					// Get%sEnum return the enum type of this object 
 					func (%s *%s) Get%sEnum() %sEnum {
@@ -273,9 +273,9 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 
 		} else {
 			methodName := strings.ToUpper(classInfoe.Name[:1]) + classInfoe.Name[1:]
-			methodName = ReplaceKeyWords(methodName)
+			methodName = go_tl.ReplaceKeyWords(methodName)
 			returnType := strings.ToUpper(classInfoe.RootName[:1]) + classInfoe.RootName[1:]
-			returnType = ReplaceKeyWords(returnType)
+			returnType = go_tl.ReplaceKeyWords(returnType)
 			returnTypeCamel := strings.ToLower(returnType[:1]) + returnType[1:]
 			returnIsInterface := checkIsInterface(returnType, schema)
 
@@ -290,7 +290,7 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 			paramsDesc := ""
 			for i, param := range classInfoe.Properties {
 				paramName := convertToArgumentName(param.Name)
-				dataType, isPrimitive := ConvertDataType(param.Type, ArraySideLeft, true
+				dataType, isPrimitive := go_tl.ConvertDataType(param.Type, go_tl.ArraySideLeft, true)
 				if isPrimitive || checkIsInterface(dataType, schema) {
 					paramsStr += paramName + " " + dataType
 
@@ -399,7 +399,7 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 }
 func convertToArgumentName(input string) string {
 	paramName := govalidator.UnderscoreToCamelCase(input)
-	paramName = ReplaceKeyWords(paramName)
+	paramName = go_tl.ReplaceKeyWords(paramName)
 	paramName = strings.ToLower(paramName[0:1]) + paramName[1:]
 	paramName = strings.Replace(paramName, "type", "typeParam", 1)
 
@@ -408,7 +408,7 @@ func convertToArgumentName(input string) string {
 
 func checkIsInterface(input string, schema *go_tl.Schema) bool {
 	for _, interfaceInfo := range schema.InterfaceInfoes {
-		if interfaceInfo.Name == input || ReplaceKeyWords(interfaceInfo.Name) == input {
+		if interfaceInfo.Name == input || go_tl.ReplaceKeyWords(interfaceInfo.Name) == input {
 			return true
 		}
 	}

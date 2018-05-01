@@ -4,7 +4,6 @@ import (
 	"github.com/svmk/go-tl-parser"
 	"encoding/json"
 	"strings"
-	"go-tl-parser"
 )
 
 func typeCast(typeName string) string {

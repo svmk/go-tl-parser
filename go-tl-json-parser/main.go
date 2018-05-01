@@ -1,8 +1,7 @@
 package main
 
 import (
-	"github.com/svmk/go-tl-parser/json_generator"
-	"github.com/svmk/go-tl-parser/parser"
+	"github.com/svmk/go-tl-parser"
 	"flag"
 	"fmt"
 	"log"
@@ -20,11 +19,11 @@ func main() {
 		return
 	}
 	defer f.Close()
-	schema, err := parser.Parse(f)
+	schema, err := go_tl.Parse(f)
 	if err != nil {
 		log.Fatalf("Parse serror: %v", err)
 		return
 	}
-	result, err := json_generator.Generate(schema)
+	result, err := Generate(schema)
 	fmt.Println(string(result))
 }

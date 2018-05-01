@@ -8,7 +8,6 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"go-tl-parser"
 )
 
 const (
