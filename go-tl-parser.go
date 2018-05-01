@@ -1,8 +1,8 @@
 package main
 
 import (
-	"../code_generator"
-	"../parser"
+	"./code_generator"
+	"./parser"
 	"bufio"
 	"encoding/json"
 	"flag"

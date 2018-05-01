@@ -1,8 +1,8 @@
 package main
 
 import (
-	"../json_generator"
-	"../parser"
+	"./json_generator"
+	"./parser"
 	"flag"
 	"fmt"
 	"log"
