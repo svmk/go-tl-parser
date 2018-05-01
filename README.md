@@ -33,8 +33,14 @@ $ go get github.com/Arman92/go-tl-parser
 
 Run by:
 ```bash
-$ go-tl-parser file=./schema.tl dir=./tdlib package=tdlib structs-file=types.go methods-file=methods.go
+$ go-tl-parser -file=./schema.tl -dir=./tdlib -package=tdlib -structs-file=types.go -methods-file=methods.go
 ```
+
+For json:
+```bash
+$ go-tl-parser-json -file=./schema.tl
+```
+
 
 This work is used in [Telegram Tdlib go binding](https://github.com/Arman92/go-tdlib) project, used to generate types and functions from .tl schema file, so you may want to change the code to meet your needs.
 
