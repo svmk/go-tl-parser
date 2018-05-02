@@ -7,8 +7,20 @@ import (
 	"strings"
 )
 
+func replaceKeyWords(input string) string {
+	input = strings.Replace(input, "Api", "API", -1)
+	input = strings.Replace(input, "Url", "URL", -1)
+	input = strings.Replace(input, "Id", "ID", -1)
+	input = strings.Replace(input, "Ttl", "TTL", -1)
+	input = strings.Replace(input, "Html", "HTML", -1)
+	input = strings.Replace(input, "Uri", "URI", -1)
+	input = strings.Replace(input, "Ip", "IP", -1)
+	input = strings.Replace(input, "Udp", "UDP", -1)
+
+	return input
+}
 func getEnumName(enum string) string {
-	return enum + "Enum";
+	return replaceKeyWords(strings.ToUpper(enum[0:1])+enum[1:] + "Enum");
 }
 func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs string, gnrtdMethods string) {
 	gnrtdStructs = fmt.Sprintf("package %s\n\n", generatedPackage)

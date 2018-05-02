@@ -72,5 +72,15 @@ func Generate(schema *go_tl.Schema) ([]byte, error) {
 		}
 		result[class.Name] = item
 	}
+	for _, iface := range schema.InterfaceInfoes {
+		item := map[string]interface{} {
+			"fields": []interface{} {},
+			"desc": iface.Description,
+			"url": nil,
+			"extends": "TDObject",
+			"type": "object",
+		};
+		result[iface.Name] = item;
+	}
 	return json.Marshal(result)
 }

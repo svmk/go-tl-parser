@@ -58,19 +58,6 @@ type Schema struct {
 	EnumInfoes      []EnumInfo
 }
 
-func replaceKeyWords(input string) string {
-	input = strings.Replace(input, "Api", "API", -1)
-	input = strings.Replace(input, "Url", "URL", -1)
-	input = strings.Replace(input, "Id", "ID", -1)
-	input = strings.Replace(input, "Ttl", "TTL", -1)
-	input = strings.Replace(input, "Html", "HTML", -1)
-	input = strings.Replace(input, "Uri", "URI", -1)
-	input = strings.Replace(input, "Ip", "IP", -1)
-	input = strings.Replace(input, "Udp", "UDP", -1)
-
-	return input
-}
-
 func Parse(f io.Reader) (*Schema, error) {
 	var entityDesc string
 	paramDescs := make(map[string]string)
@@ -106,7 +93,7 @@ func Parse(f io.Reader) (*Schema, error) {
 				Description: strings.Trim(entityDesc, " "),
 			}
 			interfaceInfoes = append(interfaceInfoes, interfaceInfo)
-			enumInfoes = append(enumInfoes, EnumInfo{EnumType: replaceKeyWords(interfaceName)})
+			enumInfoes = append(enumInfoes, EnumInfo{EnumType: interfaceName})
 
 		} else if strings.HasPrefix(line, "//@description ") { // Entity description
 			line = line[len("//@description "):]
@@ -205,14 +192,13 @@ func Parse(f io.Reader) (*Schema, error) {
 			var enumInfo EnumInfo
 			var i int
 			for i, enumInfo = range enumInfoes {
-				if enumInfo.EnumType == replaceKeyWords(classInfoe.RootName) {
+				if enumInfo.EnumType == classInfoe.RootName {
 					ok = true
 					break
 				}
 			}
 			if ok && !classInfoe.IsFunction {
-				enumInfo.Items = append(enumInfo.Items,
-					replaceKeyWords(strings.ToUpper(classInfoe.Name[0:1])+classInfoe.Name[1:]))
+				enumInfo.Items = append(enumInfo.Items, classInfoe.Name)
 				enumInfoes[i] = enumInfo
 			}
 		}
