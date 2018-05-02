@@ -5,20 +5,6 @@ import (
 	"encoding/json"
 	"strings"
 )
-
-func typeCast(typeName string) string {
-	result, _ := go_tl.ConvertDataType(typeName, go_tl.ArraySideRight, false, false)
-	if result == "int32" {
-		result = "number"
-	}
-	return result
-}
-func lcFirst(str string) string {
-	if str == "" {
-		return ""
-	}
-	return string(strings.ToLower(string(str[0]))) + str[1:]
-}
 func ucFirst(str string) string {
 	if str == "" {
 		return ""
@@ -40,8 +26,7 @@ func fields(class go_tl.ClassInfo) (result []map[string]interface{}) {
 	result = make([]map[string]interface{}, 0)
 	for _, field := range class.Properties {
 		item := make(map[string]interface{})
-		fieldType := typeCast(field.Type)
-		item["type"] = fieldType
+		item["type"] = field.Type
 		item["name"] = field.Name
 		item["desc"] = appendDot(field.Description)
 		result = append(result, item)
@@ -60,8 +45,7 @@ func Generate(schema *go_tl.Schema) ([]byte, error) {
 		if class.IsFunction {
 			item["extends"] = "TDFunction"
 			item["type"] = "function"
-			returnType := typeCast(class.RootName)
-			item["returnType"] = returnType
+			item["returnType"] = class.RootName
 		} else {
 			if class.RootName != ucFirst(class.Name) {
 				item["extends"] = class.RootName
