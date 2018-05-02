@@ -152,7 +152,7 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 				propName := govalidator.UnderscoreToCamelCase(prop.Name)
 				propName = go_tl.ReplaceKeyWords(propName)
 
-				dataType, isPrimitive := go_tl.ConvertDataType(prop.Type, go_tl.ArraySideLeft, true)
+				dataType, isPrimitive := go_tl.ConvertDataType(prop.Type, go_tl.ArraySideLeft, true, true)
 				propsStrItem := ""
 				if isPrimitive || checkIsInterface(dataType, schema) {
 					propsStrItem += fmt.Sprintf("%s %s `json:\"%s\"` // %s", propName, dataType, prop.Name, prop.Description)
@@ -191,7 +191,7 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 			for i, param := range classInfoe.Properties {
 				propName := govalidator.UnderscoreToCamelCase(param.Name)
 				propName = go_tl.ReplaceKeyWords(propName)
-				dataType, isPrimitive := go_tl.ConvertDataType(param.Type, go_tl.ArraySideLeft, true)
+				dataType, isPrimitive := go_tl.ConvertDataType(param.Type, go_tl.ArraySideLeft, true, true)
 				paramName := convertToArgumentName(param.Name)
 
 				if isPrimitive || checkIsInterface(dataType, schema) {
@@ -290,7 +290,7 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 			paramsDesc := ""
 			for i, param := range classInfoe.Properties {
 				paramName := convertToArgumentName(param.Name)
-				dataType, isPrimitive := go_tl.ConvertDataType(param.Type, go_tl.ArraySideLeft, true)
+				dataType, isPrimitive := go_tl.ConvertDataType(param.Type, go_tl.ArraySideLeft, true, true)
 				if isPrimitive || checkIsInterface(dataType, schema) {
 					paramsStr += paramName + " " + dataType
 

@@ -7,7 +7,7 @@ import (
 )
 
 func typeCast(typeName string) string {
-	result, _ := go_tl.ConvertDataType(typeName, go_tl.ArraySideRight, false)
+	result, _ := go_tl.ConvertDataType(typeName, go_tl.ArraySideRight, false, false)
 	if result == "int32" {
 		result = "number"
 	}

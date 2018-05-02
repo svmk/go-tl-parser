@@ -35,7 +35,7 @@ func mapArrayType(input string, side ArraySide) string {
 	return input
 }
 
-func ConvertDataType(input string, side ArraySide, shallReplaceKeywords bool) (string, bool) {
+func ConvertDataType(input string, side ArraySide, shallReplaceKeywords bool, useUcUppercase bool) (string, bool) {
 	propType := ""
 	isPrimitiveType := true
 
@@ -63,7 +63,11 @@ func ConvertDataType(input string, side ArraySide, shallReplaceKeywords bool) (s
 		} else if strings.HasPrefix(input, "[]") {
 			propType = "[]" + strings.ToUpper(input[len("[]"):len("[]")+1]) + input[len("[]")+1:]
 		} else {
-			propType = strings.ToUpper(input[:1]) + input[1:]
+			if useUcUppercase {
+				propType = strings.ToUpper(input[:1]) + input[1:]
+			} else {
+				propType = input
+			}
 			isPrimitiveType = false
 		}
 	}
