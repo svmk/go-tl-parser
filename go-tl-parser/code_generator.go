@@ -7,6 +7,9 @@ import (
 	"strings"
 )
 
+func getEnumName(enum string) string {
+	return enum + "Enum";
+}
 func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs string, gnrtdMethods string) {
 	gnrtdStructs = fmt.Sprintf("package %s\n\n", generatedPackage)
 	structUnmarshals := ""
@@ -71,13 +74,13 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 				// %s Alias for abstract %s 'Sub-Classes', used as constant-enum here
 				type %s string
 				`,
-			enumInfoe.EnumType,
-			enumInfoe.EnumType[:len(enumInfoe.EnumType)-len("Enum")],
-			enumInfoe.EnumType)
+			getEnumName(enumInfoe.EnumType),
+			getEnumName(enumInfoe.EnumType)[:len(getEnumName(enumInfoe.EnumType))-len("Enum")],
+			getEnumName(enumInfoe.EnumType))
 
 		consts := ""
 		for _, item := range enumInfoe.Items {
-			consts += item + "Type " + enumInfoe.EnumType + " = \"" +
+			consts += item + "Type " + getEnumName(enumInfoe.EnumType )+ " = \"" +
 				strings.ToLower(item[:1]) + item[1:] + "\"\n"
 
 		}
@@ -85,7 +88,7 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 				// %s enums
 				const (
 					%s
-				)`, enumInfoe.EnumType[:len(enumInfoe.EnumType)-len("Enum")], consts)
+				)`, getEnumName(enumInfoe.EnumType)[:len(getEnumName(enumInfoe.EnumType))-len("Enum")], consts)
 	}
 
 	for _, interfaceInfo := range schema.InterfaceInfoes {
@@ -96,7 +99,7 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 			interfaceInfo.Name, interfaceInfo.Description, interfaceInfo.Name, interfaceInfo.Name, interfaceInfo.Name)
 
 		for _, enumInfoe := range schema.EnumInfoes {
-			if enumInfoe.EnumType == interfaceInfo.Name+"Enum" {
+			if getEnumName(enumInfoe.EnumType )== interfaceInfo.Name+"Enum" {
 				for _, enumItem := range enumInfoe.Items {
 					typeName := enumItem
 					typeNameCamel := strings.ToLower(typeName[:1]) + typeName[1:]
@@ -328,7 +331,7 @@ func Generate(schema *go_tl.Schema, generatedPackage string) (gnrtdStructs strin
 				casesStr := ""
 
 				for _, enumInfoe := range schema.EnumInfoes {
-					if enumInfoe.EnumType == enumType {
+					if getEnumName(enumInfoe.EnumType )== enumType {
 						for _, item := range enumInfoe.Items {
 							casesStr += fmt.Sprintf(`
 								case %s:

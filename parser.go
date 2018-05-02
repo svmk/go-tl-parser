@@ -106,7 +106,7 @@ func Parse(f io.Reader) (*Schema, error) {
 				Description: strings.Trim(entityDesc, " "),
 			}
 			interfaceInfoes = append(interfaceInfoes, interfaceInfo)
-			enumInfoes = append(enumInfoes, EnumInfo{EnumType: replaceKeyWords(interfaceName) + "Enum"})
+			enumInfoes = append(enumInfoes, EnumInfo{EnumType: replaceKeyWords(interfaceName)})
 
 		} else if strings.HasPrefix(line, "//@description ") { // Entity description
 			line = line[len("//@description "):]
@@ -205,7 +205,7 @@ func Parse(f io.Reader) (*Schema, error) {
 			var enumInfo EnumInfo
 			var i int
 			for i, enumInfo = range enumInfoes {
-				if enumInfo.EnumType == replaceKeyWords(classInfoe.RootName)+"Enum" {
+				if enumInfo.EnumType == replaceKeyWords(classInfoe.RootName) {
 					ok = true
 					break
 				}
