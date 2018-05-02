@@ -74,7 +74,7 @@ func Generate(schema *go_tl.Schema) ([]byte, error) {
 			"desc": iface.Description,
 			"url": nil,
 			"extends": "TDObject",
-			"type": "obejct",
+			"type": "object",
 		};
 		result[iface.Name] = item;
 	}
