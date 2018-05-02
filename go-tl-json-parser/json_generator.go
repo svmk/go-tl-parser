@@ -37,6 +37,7 @@ func appendDot(text string) string {
 }
 
 func fields(class go_tl.ClassInfo) (result []map[string]interface{}) {
+	result = make([]map[string]interface{}, 0)
 	for _, field := range class.Properties {
 		item := make(map[string]interface{})
 		fieldType := typeCast(field.Type)
