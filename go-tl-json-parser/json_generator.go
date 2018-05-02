@@ -5,6 +5,16 @@ import (
 	"encoding/json"
 	"strings"
 )
+
+func typeCast(typeName string) string {
+	return go_tl.MapArrayType(typeName, go_tl.ArraySideRight)
+}
+func lcFirst(str string) string {
+	if str == "" {
+		return ""
+	}
+	return string(strings.ToLower(string(str[0]))) + str[1:]
+}
 func ucFirst(str string) string {
 	if str == "" {
 		return ""
@@ -26,7 +36,8 @@ func fields(class go_tl.ClassInfo) (result []map[string]interface{}) {
 	result = make([]map[string]interface{}, 0)
 	for _, field := range class.Properties {
 		item := make(map[string]interface{})
-		item["type"] = field.Type
+		fieldType := typeCast(field.Type)
+		item["type"] = fieldType
 		item["name"] = field.Name
 		item["desc"] = appendDot(field.Description)
 		result = append(result, item)
@@ -45,7 +56,8 @@ func Generate(schema *go_tl.Schema) ([]byte, error) {
 		if class.IsFunction {
 			item["extends"] = "TDFunction"
 			item["type"] = "function"
-			item["returnType"] = class.RootName
+			returnType := typeCast(class.RootName)
+			item["returnType"] = returnType
 		} else {
 			if class.RootName != ucFirst(class.Name) {
 				item["extends"] = class.RootName
@@ -62,7 +74,7 @@ func Generate(schema *go_tl.Schema) ([]byte, error) {
 			"desc": iface.Description,
 			"url": nil,
 			"extends": "TDObject",
-			"type": "object",
+			"type": "obejct",
 		};
 		result[iface.Name] = item;
 	}
