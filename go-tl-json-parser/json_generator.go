@@ -37,7 +37,7 @@ func fields(class go_tl.ClassInfo) (result []map[string]interface{}) {
 	for _, field := range class.Properties {
 		item := make(map[string]interface{})
 		fieldType := typeCast(field.Type)
-		item["type"] = fieldType
+		item["type"] = lcFirst(fieldType)
 		item["name"] = field.Name
 		item["desc"] = appendDot(field.Description)
 		result = append(result, item)
@@ -58,7 +58,7 @@ func Generate(schema *go_tl.Schema) ([]byte, error) {
 			item["extends"] = "TDFunction"
 			item["type"] = "function"
 			returnType := typeCast(class.RootName)
-			item["returnType"] = returnType
+			item["returnType"] = lcFirst(returnType)
 		} else {
 			if class.RootName != ucFirst(class.Name) {
 				item["extends"] = lcFirst(class.RootName)
@@ -77,7 +77,7 @@ func Generate(schema *go_tl.Schema) ([]byte, error) {
 			"extends": "TDObject",
 			"type": "object",
 		};
-		result[iface.Name] = item;
+		result[lcFirst(iface.Name)] = item;
 	}
 	return json.Marshal(result)
 }
