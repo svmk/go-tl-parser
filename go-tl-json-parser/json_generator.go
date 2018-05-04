@@ -61,9 +61,8 @@ func Generate(schema *go_tl.Schema) ([]byte, error) {
 			item["returnType"] = returnType
 		} else {
 			if class.RootName != ucFirst(class.Name) {
-				item["extends"] = class.RootName
+				item["extends"] = lcFirst(class.RootName)
 			} else {
-				className = class.Name;
 				item["extends"] = "TDObject"
 			}
 			item["type"] = "object"
