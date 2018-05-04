@@ -48,6 +48,7 @@ func fields(class go_tl.ClassInfo) (result []map[string]interface{}) {
 func Generate(schema *go_tl.Schema) ([]byte, error) {
 	result := make(map[string]interface{})
 	for _, class := range schema.ClassInfoes {
+		className := class.Name;
 		item := map[string]interface{}{
 			"fields": fields(class),
 			"desc":   appendDot(class.Description),
@@ -62,11 +63,12 @@ func Generate(schema *go_tl.Schema) ([]byte, error) {
 			if class.RootName != ucFirst(class.Name) {
 				item["extends"] = class.RootName
 			} else {
+				className = class.Name;
 				item["extends"] = "TDObject"
 			}
 			item["type"] = "object"
 		}
-		result[class.Name] = item
+		result[className] = item
 	}
 	for _, iface := range schema.InterfaceInfoes {
 		item := map[string]interface{} {
